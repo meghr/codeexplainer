@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Code Explainer - JAR Analysis Tool</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <div class="app-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="logo">
+                <span class="logo-icon">⚡</span>
+                <h1>Code Explainer</h1>
+            </div>
+            <nav class="nav-menu">
+                <a href="#" class="nav-item active" data-view="upload">
+                    <span class="nav-icon">📤</span>
+                    Upload JAR
+                </a>
+                <a href="#" class="nav-item" data-view="classes">
+                    <span class="nav-icon">📦</span>
+                    Classes
+                </a>
+                <a href="#" class="nav-item" data-view="endpoints">
+                    <span class="nav-icon">🌐</span>
+                    Endpoints
+                </a>
+                <a href="#" class="nav-item" data-view="components">
+                    <span class="nav-icon">🧩</span>
+                    Components
+                </a>
+                <a href="#" class="nav-item" data-view="io-analysis">
+                    <span class="nav-icon">🔄</span>
+                    I/O Analysis
+                </a>
+                <a href="#" class="nav-item" data-view="diagrams">
+                    <span class="nav-icon">📊</span>
+                    Structure Diagram
+                </a>
+                <a href="#" class="nav-item" data-view="docs">
+                    <span class="nav-icon">📄</span>
+                    Documentation
+                </a>
+            </nav>
+            <div class="sidebar-footer">
+                <div class="session-info" id="sessionInfo" style="display: none;">
+                    <span class="session-label">Session:</span>
+                    <span class="session-id" id="sessionId"></span>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Upload View -->
+            <section id="uploadView" class="view active">
+                <div class="view-header">
+                    <h2>Analyze JAR File</h2>
+                    <p>Upload a Java JAR file to analyze its structure and generate documentation</p>
+                </div>
+                <div class="upload-zone" id="uploadZone">
+                    <div class="upload-icon">📁</div>
+                    <h3>Drag & Drop your JAR file here</h3>
+                    <p>or click to browse</p>
+                    <input type="file" id="fileInput" accept=".jar" hidden>
+                </div>
+                <div class="upload-progress" id="uploadProgress" style="display: none;">
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="progressFill"></div>
+                    </div>
+                    <p id="statusText">Analyzing...</p>
+                </div>
+                <div class="analysis-summary" id="analysisSummary" style="display: none;">
+                    <h3>Analysis Complete</h3>
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <span class="stat-value" id="classCount">0</span>
+                            <span class="stat-label">Classes</span>
+                        </div>
+                        <div class="stat-card">
+                            <span class="stat-value" id="methodCount">0</span>
+                            <span class="stat-label">Methods</span>
+                        </div>
+                        <div class="stat-card">
+                            <span class="stat-value" id="interfaceCount">0</span>
+                            <span class="stat-label">Interfaces</span>
+                        </div>
+                        <div class="stat-card">
+                            <span class="stat-value" id="packageCount">0</span>
+                            <span class="stat-label">Packages</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Classes View -->
+            <section id="classesView" class="view">
+                <div class="view-header">
+                    <h2>Classes</h2>
+                    <div class="view-actions">
+                        <input type="text" id="classSearch" placeholder="Search classes..." class="search-input">
+                    </div>
+                </div>
+                <div class="table-container">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Class Name</th>
+                                <th>Package</th>
+                                <th>Type</th>
+                                <th>Methods</th>
+                                <th>Fields</th>
+                            </tr>
+                        </thead>
+                        <tbody id="classesTableBody">
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- Endpoints View -->
+            <section id="endpointsView" class="view">
+                <div class="view-header">
+                    <h2>REST Endpoints</h2>
+                </div>
+                <div class="endpoints-list" id="endpointsList">
+                </div>
+            </section>
+
+            <!-- Components View -->
+            <section id="componentsView" class="view">
+                <div class="view-header">
+                    <h2>Spring Components</h2>
+                </div>
+                <div class="components-grid" id="componentsList">
+                </div>
+            </section>
+
+            <!-- I/O Analysis View -->
+            <section id="ioAnalysisView" class="view">
+                <div class="view-header">
+                    <h2>Input/Output Analysis</h2>
+                </div>
+                <div class="io-content" id="ioContent">
+                </div>
+            </section>
+
+            <!-- Diagrams View -->
+            <section id="diagramsView" class="view">
+                <div class="view-header">
+                    <h2>Structure Diagram</h2>
+                    <div class="view-actions">
+                        <button class="btn btn-secondary" id="downloadSvg">Download SVG (HD)</button>
+                        <button class="btn btn-secondary" id="downloadPng">Download PNG</button>
+                    </div>
+                </div>
+                <div class="diagram-container" id="diagramContent">
+                    <div class="diagram-preview" style="text-align: center; margin-bottom: 20px; overflow: auto;">
+                        <img id="diagramImage" alt="Class Diagram"
+                            style="max-width: 100%; border: 1px solid #333; border-radius: 4px;">
+                        <p id="diagramLoading" style="display: none; color: #888;">Rendering diagram...</p>
+                        <p id="diagramError" style="display: none; color: #ff6b6b; font-size: 0.9em; margin-top: 10px;">
+                        </p>
+                    </div>
+                    <details>
+                        <summary style="cursor: pointer; color: #888; margin-bottom: 10px;">Show PlantUML Source
+                        </summary>
+                        <pre id="plantUmlSource"
+                            style="background: #1e1e1e; padding: 15px; border-radius: 5px; overflow-x: auto; color: #d4d4d4;"></pre>
+                    </details>
+                </div>
+            </section>
+
+            <!-- Docs View -->
+            <section id="docsView" class="view">
+                <div class="view-header">
+                    <h2>Generated Documentation</h2>
+                    <div class="view-actions">
+                        <button class="btn btn-secondary" id="exportJson">Export JSON</button>
+                        <button class="btn btn-primary" id="exportPdf">Export PDF</button>
+                    </div>
+                </div>
+                <div class="docs-content" id="docsContent">
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/plantuml-encoder@1.4.0/dist/plantuml-encoder.min.js"></script>
+    <script src="js/app.js"></script>
+</body>
+
+</html>

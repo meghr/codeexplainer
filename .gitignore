@@ -1,0 +1,14 @@
+target/
+.mvn/
+mvnw
+mvnw.cmd
+.idea/
+*.iml
+.DS_Store
+logs/
+run_logs/
+help_logs/
+site/
+.vscode/
+node_modules/
+.gemini/
