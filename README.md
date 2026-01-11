@@ -26,7 +26,7 @@ A comprehensive tool to analyze Java JAR files and Maven dependencies, generatin
 
 ### Prerequisites
 
-- **Java 25** (Required for running the latest build)
+- **Java 17+** (Compatible with JDK 17, 21, 23)
 - **Maven 3.8+**
 - **Docker** (Optional, for containerized run)
 
@@ -34,7 +34,7 @@ A comprehensive tool to analyze Java JAR files and Maven dependencies, generatin
 
 ```bash
 # Clone the repository
-git clone https://github.com/your-org/code-explainer.git
+git clone https://github.com/meghr/codeexplainer.git
 cd code-explainer
 
 # Build the application
@@ -44,7 +44,7 @@ mvn clean package
 mvn spring-boot:run
 ```
 
-The application will start at `http://localhost:8082`.
+The application will start at `http://localhost:8080`.
 
 ### Run with Docker
 
@@ -76,7 +76,7 @@ src/main/java/com/codeexplainer/
 
 The application provides a comprehensive REST API. 
 Full Swagger/OpenAPI documentation is available at:
-`http://localhost:8082/swagger-ui/index.html`
+`http://localhost:8080/swagger-ui/index.html`
 
 ### Key Endpoints
 

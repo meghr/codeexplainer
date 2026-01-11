@@ -5,7 +5,7 @@ Welcome to the Code Explainer! This tool helps you understand the internal struc
 ## 🚀 Getting Started
 
 1.  **Open the Web Dashboard**
-    Open your browser and navigate to `http://localhost:8082`.
+    Open your browser and navigate to `http://localhost:8080`.
 
 2.  **Upload a JAR File**
     - Drag and drop your `.jar` file into the upload zone.
@@ -49,7 +49,13 @@ Deep dive into data flow.
 - **DTOs**: Detected Data Transfer Objects.
 - **Method I/O**: Breakdown of method parameters and return types.
 
-### 6. Documentation & Export
+### 6. Structure Diagram
+Visualizes the class hierarchy and relationships.
+- **Render**: Inline diagram generated via PlantUML.
+- **Export**: Options to download as SVG (HD) or PNG.
+- **Source**: Toggle to view raw PlantUML code.
+
+### 7. Documentation & Export
 The **Docs** tab provides a generated markdown summary of the project.
 
 #### Exporting Reports
@@ -68,7 +74,7 @@ The report highlights potential code quality issues:
 ### Flow Diagrams
 (If enabled in configuration)
 - **Class Diagrams**: Show relationships (Inheritance `extends`, Implementation `implements`).
-- **Sequence Digrams**: Show the partial flow of logic within identifying methods.
+- **Sequence Diagrams**: Show the partial flow of logic within identifying methods.
 
 ## ❓ FAQ
 
