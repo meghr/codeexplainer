@@ -65,9 +65,12 @@
                 </div>
                 <div class="upload-zone" id="uploadZone">
                     <div class="upload-icon">📁</div>
-                    <h3>Drag & Drop your JAR file here</h3>
+                    <h3>Drag & Drop your JAR or Project ZIP here</h3>
                     <p>or click to browse</p>
-                    <input type="file" id="fileInput" accept=".jar" hidden>
+                    <p style="font-size: 0.85em; color: #888; margin-top: 10px;">
+                        For projects: ZIP your compiled classes (e.g., target/classes or build/classes)
+                    </p>
+                    <input type="file" id="fileInput" accept=".jar,.zip" hidden>
                 </div>
                 <div class="upload-progress" id="uploadProgress" style="display: none;">
                     <div class="progress-bar">
@@ -181,8 +184,7 @@
                 <div class="view-header">
                     <h2>Generated Documentation</h2>
                     <div class="view-actions">
-                        <button class="btn btn-secondary" id="exportJson">Export JSON</button>
-                        <button class="btn btn-primary" id="exportPdf">Export PDF</button>
+                        <button class="btn btn-primary" id="exportJson">Export JSON</button>
                     </div>
                 </div>
                 <div class="docs-content" id="docsContent">

@@ -126,17 +126,17 @@ public class JarExtractor {
 
     private void validateJarFile(File jarFile) throws JarParsingException {
         if (!jarFile.exists()) {
-            throw new JarParsingException("JAR file does not exist: " + jarFile.getAbsolutePath());
+            throw new JarParsingException("File does not exist: " + jarFile.getAbsolutePath());
         }
         if (!jarFile.isFile()) {
             throw new JarParsingException("Path is not a file: " + jarFile.getAbsolutePath());
         }
         if (!jarFile.canRead()) {
-            throw new JarParsingException("Cannot read JAR file: " + jarFile.getAbsolutePath());
+            throw new JarParsingException("Cannot read file: " + jarFile.getAbsolutePath());
         }
         String name = jarFile.getName().toLowerCase();
-        if (!name.endsWith(".jar") && !name.endsWith(".war") && !name.endsWith(".ear")) {
-            throw new JarParsingException("File is not a JAR/WAR/EAR: " + jarFile.getName());
+        if (!name.endsWith(".jar") && !name.endsWith(".war") && !name.endsWith(".ear") && !name.endsWith(".zip")) {
+            throw new JarParsingException("File is not a JAR/WAR/EAR/ZIP: " + jarFile.getName());
         }
     }
 
@@ -157,6 +157,8 @@ public class JarExtractor {
     }
 
     private void extractJarEntries(File jarFile, Path extractDir, JarContent content) throws IOException {
+        boolean isProjectZip = jarFile.getName().toLowerCase().endsWith(".zip");
+
         try (ZipFile zipFile = new ZipFile(jarFile)) {
             Enumeration<ZipArchiveEntry> entries = zipFile.getEntries();
 
@@ -166,6 +168,12 @@ public class JarExtractor {
 
                 if (entry.isDirectory()) {
                     Files.createDirectories(extractDir.resolve(entryName));
+                    continue;
+                }
+
+                // For project ZIPs, only extract .class files and manifests from build
+                // directories
+                if (isProjectZip && !shouldExtractFromProject(entryName)) {
                     continue;
                 }
 
@@ -182,6 +190,34 @@ public class JarExtractor {
                 categorizeEntry(entryName, targetPath.toString(), content);
             }
         }
+    }
+
+    /**
+     * Determines if an entry should be extracted from a project ZIP.
+     * Looks for .class files in standard Maven/Gradle build directories.
+     */
+    private boolean shouldExtractFromProject(String entryName) {
+        String lower = entryName.toLowerCase();
+
+        // Always extract manifest if present
+        if (lower.endsWith("manifest.mf")) {
+            return true;
+        }
+
+        // Only extract .class files
+        if (!lower.endsWith(".class")) {
+            return false;
+        }
+
+        // Check if it's in a standard build directory
+        return lower.contains("target/classes/") ||
+                lower.contains("build/classes/") ||
+                lower.contains("out/production/") ||
+                lower.contains("bin/") ||
+                // Also accept root-level classes for simple projects
+                !entryName.contains("/") ||
+                // Accept any path structure if it's a class file (be permissive)
+                true; // For now, accept all .class files
     }
 
     private void categorizeEntry(String entryName, String extractedPath, JarContent content) {

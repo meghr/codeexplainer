@@ -4,7 +4,7 @@ A comprehensive tool to analyze Java JAR files and Maven dependencies, generatin
 
 ## Features
 
-- 📦 **JAR File Analysis**: Upload and analyze any Java JAR file (Support for Java 8 to 25).
+- 📦 **JAR File & Project Analysis**: Upload JAR files or ZIP archives of compiled projects (Support for Java 8 to 25).
 - 🔍 **Bytecode Inspection**: Deep analysis using ASM 9.7.1.
 - 🏗️ **Architecture Overview**: Automatic detection of:
     - **Spring Components** (@Service, @Repository, @Controller)
@@ -12,13 +12,11 @@ A comprehensive tool to analyze Java JAR files and Maven dependencies, generatin
     - **Data Transfer Objects (DTOs)**
     - **Application Layers** (Controller -> Service -> Repository)
 - 📊 **Visualizations**: 
-    - **Class Diagrams**
-    - **Sequence Flows**
-    - **Access/Call Graphs**
+    - **Class Diagrams** (PlantUML)
+    - **Download Options** (SVG HD, PNG)
 - 📈 **Input/Output Analysis**: Analyze method parameters, return types, and potential side effects.
 - 📄 **Reporting**: 
     - **Interactive Web Dashboard**
-    - **PDF Exports**: Professionally formatted reports.
     - **JSON Exports**: Machine-readable analysis data.
 - 🔗 **Maven Integration**: Resolve and analyze Maven coordinates directly.
 
@@ -95,9 +93,9 @@ For detailed instructions on how to use the Web Interface and interpret reports,
 ## Technology Stack
 
 - **Framework**: Spring Boot 3.2
-- **Language**: Java 25 (Preview features enabled)
+- **Language**: Java 17+ (Compatible with JDK 17, 21, 23)
 - **Bytecode**: ASM 9.7.1
-- **PDF Generation**: iText 7 Core
+- **Diagrams**: PlantUML (via web service)
 - **Frontend**: Vanilla JS + CSS (Dark Theme)
 
 ## License

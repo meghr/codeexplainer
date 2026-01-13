@@ -7,10 +7,11 @@ Welcome to the Code Explainer! This tool helps you understand the internal struc
 1.  **Open the Web Dashboard**
     Open your browser and navigate to `http://localhost:8080`.
 
-2.  **Upload a JAR File**
-    - Drag and drop your `.jar` file into the upload zone.
+2.  **Upload a JAR or Project ZIP**
+    - Drag and drop your `.jar` file or `.zip` archive into the upload zone.
     - Or click the zone to browse your files.
-    - *Note: Larger JARs may take a few seconds to analyze.*
+    - *For projects*: Create a ZIP of your compiled classes directory (e.g., `cd target/classes && zip -r ../../myproject.zip .`)
+    - *Note: Larger files may take a few seconds to analyze.*
 
 ## 🖥️ Web Interface Overview
 
@@ -59,8 +60,7 @@ Visualizes the class hierarchy and relationships.
 The **Docs** tab provides a generated markdown summary of the project.
 
 #### Exporting Reports
-Use the buttons in the top-right corner of the Docs view:
-- **Export PDF**: Downloads a professionally formatted, printable report containing executive summaries, component tables, and quality metrics.
+Use the button in the top-right corner of the Docs view:
 - **Export JSON**: Downloads the raw analysis data for further processing or integration with other tools.
 
 ## 📊 Interpreting Reports

@@ -78,11 +78,6 @@ class CodeExplainerApp {
             exportJsonBtn.addEventListener('click', () => this.exportReport('json'));
         }
 
-        const exportPdfBtn = document.getElementById('exportPdf');
-        if (exportPdfBtn) {
-            exportPdfBtn.addEventListener('click', () => this.exportReport('pdf'));
-        }
-
         // Diagram download buttons
         const downloadSvgBtn = document.getElementById('downloadSvg');
         if (downloadSvgBtn) {
@@ -146,8 +141,9 @@ class CodeExplainerApp {
     }
 
     async uploadFile(file) {
-        if (!file.name.endsWith('.jar')) {
-            this.showNotification('Please select a JAR file', 'error');
+        const fileName = file.name.toLowerCase();
+        if (!fileName.endsWith('.jar') && !fileName.endsWith('.zip')) {
+            this.showNotification('Please select a JAR or ZIP file', 'error');
             return;
         }
 
